@@ -1,4 +1,4 @@
-package TableRoles::Standard;
+package TablesRoles::Standard;
 
 # AUTHORITY
 # DATE
