@@ -5,10 +5,12 @@ package TablesRole::Source::CSVDATA;
 # DIST
 # VERSION
 
+use Role::Tiny;
 use Role::Tiny::With;
 with 'TablesRole::Spec::Basic';
 
 sub new {
+    no strict 'refs';
     require Text::CSV_XS;
 
     my $class = shift;
@@ -18,7 +20,7 @@ sub new {
 
     my $parser = Text::CSV_XS->new({binary=>1});
 
-    my $columns = $csv->getline($fh)
+    my $columns = $parser->getline($fh)
         or die "Can't read columns from first row of CSV";
     my $fhpos_datarow_begin = tell $fh;
 
@@ -56,7 +58,8 @@ sub get_column_names {
 
 sub get_row_arrayref {
     my $self = shift;
-    my $row = $self->{parser}->getline;
+    my $fh = $self->{fh};
+    my $row = $self->{parser}->getline($fh);
     return unless $row;
     $self->{i}++;
     $row;
@@ -83,7 +86,7 @@ sub get_row_hashref {
     $row_hashref;
 }
 
-sub reset_indicator {
+sub reset_iterator {
     my $self = shift;
     my $fh = $self->{fh};
     seek $fh, $self->{fhpos_datarow_begin}, 0;
