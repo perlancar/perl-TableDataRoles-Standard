@@ -18,9 +18,9 @@ sub new {
     my $fh = \*{"$class\::DATA"};
     my $fhpos_data_begin = tell $fh;
 
-    my $parser = Text::CSV_XS->new({binary=>1});
+    my $csv_parser = Text::CSV_XS->new({binary=>1});
 
-    my $columns = $parser->getline($fh)
+    my $columns = $csv_parser->getline($fh)
         or die "Can't read columns from first row of CSV";
     my $fhpos_datarow_begin = tell $fh;
 
@@ -28,7 +28,7 @@ sub new {
         fh => $fh,
         fhpos_data_begin => $fhpos_data_begin,
         fhpos_datarow_begin => $fhpos_datarow_begin,
-        parser => $parser,
+        csv_parser => $csv_parser,
         columns => $columns,
         i => 0, # iterator
     }, $class;
@@ -59,7 +59,7 @@ sub get_column_names {
 sub get_row_arrayref {
     my $self = shift;
     my $fh = $self->{fh};
-    my $row = $self->{parser}->getline($fh);
+    my $row = $self->{csv_parser}->getline($fh);
     return unless $row;
     $self->{i}++;
     $row;
