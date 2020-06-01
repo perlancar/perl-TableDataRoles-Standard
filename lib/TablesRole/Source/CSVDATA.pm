@@ -53,7 +53,7 @@ sub get_column_count {
 
 sub get_column_names {
     my $self = shift;
-    @{ $self->{columns} };
+    wantarray ? @{ $self->{columns} } : $self->{columns};
 }
 
 sub get_row_arrayref {
