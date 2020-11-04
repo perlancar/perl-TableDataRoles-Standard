@@ -5,8 +5,10 @@ package TablesRole::Util::Basic;
 # DIST
 # VERSION
 
-use strict;
-use warnings;
+# enabled by Role::Tiny
+#use strict;
+#use warnings;
+
 use Role::Tiny;
 
 requires 'get_row_arrayref';
