@@ -82,8 +82,9 @@ sub get_column_names {
 
 sub get_row_arrayref {
     my $self = shift;
-    $self->_get_column_names;
+    $self->get_column_names;
     my $row_hashref = $self->_get_row;
+    return undef unless $row_hashref;
     my $row_aryref = [];
     for (keys %$row_hashref) {
         my $idx = $self->{column_idxs}{$_};
@@ -152,13 +153,10 @@ Arguments:
 
 =over
 
-=item * num_rows
+=item * gen_iterator
 
-Positive int. Default is 10.
-
-=item * random
-
-Bool. Default is 0.
+Coderef. Required. Must return another coderef which is the iterator. Iterator
+must return row on each call; the row must be a hashref.
 
 =back
 

@@ -42,3 +42,25 @@ sub new {
 
 
 =head1 DESCRIPTION
+
+=head1 new
+
+Create object.
+
+Usage:
+
+ my $table = Tables::Test::Dynamic->new(%args);
+
+Known arguments:
+
+=over
+
+=item * num_rows
+
+Positive int. Default is 10.
+
+=item * random
+
+Bool. Default is 0.
+
+=back
