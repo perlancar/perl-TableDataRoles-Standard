@@ -56,7 +56,11 @@ sub _peek_row {
         $self->reset_iterator unless $self->{iterator};
         $self->{buffer} = $self->{iterator}->() // -1;
     }
-    $self->{buffer};
+    if (!ref($self->{buffer}) && $self->{buffer} == -1) {
+        return undef;
+    } else {
+        return $self->{buffer};
+    }
 }
 
 sub get_column_count {
@@ -69,6 +73,9 @@ sub get_column_names {
     my $self = shift;
     unless ($self->{column_names}) {
         my $row = $self->_peek_row;
+        unless ($row) {
+            return wantarray ? () : [];
+        }
         my $i = -1;
         $self->{column_names} = [];
         $self->{column_idxs} = {};
