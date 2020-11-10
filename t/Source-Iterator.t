@@ -15,14 +15,14 @@ i
 3
 _
 
-is($t->get_column_count, 3);
-is_deeply([$t->get_column_names], [qw/number en_name id_name/]);
+is($t->get_column_count, 1);
+is_deeply([$t->get_column_names], [qw/i/]);
 $t->reset_iterator;
-is_deeply($t->get_row_arrayref, [qw/1 one satu/]);
-is_deeply($t->get_row_hashref , {number=>2, en_name=>"two", id_name=>"dua"});
-is_deeply($t->get_row_arrayref, [qw/3 three tiga/]);
+is_deeply($t->get_row_arrayref, [qw/1/]);
+is_deeply($t->get_row_hashref , {i=>2});
+is_deeply($t->get_row_arrayref, [3]);
 $t->reset_iterator;
-is_deeply($t->get_row_hashref , {number=>1, en_name=>"one", id_name=>"satu"});
-is($t->get_row_count, 5);
+is_deeply($t->get_row_hashref , {i=>1});
+is($t->get_row_count, 3);
 
 done_testing;

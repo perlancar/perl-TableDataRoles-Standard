@@ -43,7 +43,7 @@ sub new {
 
 =head1 DESCRIPTION
 
-=head1 new
+=head2 new
 
 Create object.
 
