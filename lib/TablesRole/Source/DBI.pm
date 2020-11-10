@@ -9,6 +9,7 @@ use 5.010001;
 use Role::Tiny;
 use Role::Tiny::With;
 with 'TablesRole::Spec::Basic';
+with 'TablesRole::Util::CSV';
 
 sub new {
     my ($class, %args) = @_;
@@ -71,24 +72,6 @@ sub new {
         row_count_sth => $row_count_sth,
         row_count_sth_bind_params => $row_count_sth_bind_params,
     }, $class;
-}
-
-sub as_csv {
-    require Text::CSV_XS;
-    my $self = shift;
-
-    $self->{csv_parser} //= Text::CSV_XS->new({binary=>1});
-    my $csv = $self->{csv_parser};
-
-    my $res = "";
-    $csv->combine($self->get_column_names);
-    $res .= $csv->string . "\n";
-    $self->reset_iterator;
-    while (my $row = $self->get_row_arrayref) {
-        $csv->combine(@$row);
-        $res .= $csv->string . "\n";
-    }
-    $res;
 }
 
 sub get_column_count {
