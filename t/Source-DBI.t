@@ -7,7 +7,8 @@ use Test::More 0.98;
 
 use DBI;
 use File::Temp qw(tempfile);
-use Tables::DBI;
+use Role::Tiny;
+use TableData::DBI;
 
 my ($tempfh, $tempfile) = tempfile();
 my $dbh = DBI->connect("dbi:SQLite:dbname=$tempfile", undef, undef, {RaiseError=>1});
@@ -20,7 +21,9 @@ $dbh->do("INSERT INTO t VALUES (3, 'three')");
 # XXX test accept sth & row_count_sth
 # XXX test accept dbh, query, row_count_query
 
-my $t = Tables::DBI->new(dbh=>$dbh, table=>'t');
+my $t = TableData::DBI->new(dbh=>$dbh, table=>'t');
+Role::Tiny->apply_roles_to_object($t, 'TableDataRole::Util::CSV');
+
 is($t->as_csv, <<_);
 i,t
 1,one
@@ -30,10 +33,10 @@ _
 
 is($t->get_column_count, 2);
 is_deeply([$t->get_column_names], [qw/i t/]);
-$t->reset_iterator;
+$t->reset_row_iterator;
 is_deeply($t->get_row_arrayref, [qw/1 one/]);
 is_deeply($t->get_row_hashref , {i=>2, t=>'two'});
-$t->reset_iterator;
+$t->reset_row_iterator;
 is_deeply($t->get_row_hashref , {i=>1, t=>'one'});
 is($t->get_row_count, 3);
 

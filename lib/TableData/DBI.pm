@@ -1,4 +1,4 @@
-package Tables::DBI;
+package TableData::DBI;
 
 # AUTHORITY
 # DATE
@@ -9,22 +9,22 @@ use strict;
 use warnings;
 
 use Role::Tiny::With;
-with 'TablesRole::Source::DBI';
+with 'TableDataRole::Source::DBI';
 
 1;
 # ABSTRACT: Get table data from DBI
 
 =head1 SYNOPSIS
 
- use Tables::DBI;
+ use TableData::DBI;
 
- my $table = Tables::DBI->new(
+ my $table = TableData::DBI->new(
      sth           => $dbh->prepare("SELECT * FROM mytable"),
      row_count_sth => $dbh->prepare("SELECT COUNT(*) FROM table"),
  );
 
  # or
- my $table = Tables::DBI->new(
+ my $table = TableData::DBI->new(
      dsn           => "DBI:mysql:database=mydb",
      user          => "...",
      password      => "...",
@@ -34,11 +34,11 @@ with 'TablesRole::Source::DBI';
 
 =head1 DESCRIPTION
 
-This is a Tables:: module to get list of words from a L<DBI> query.
+This is a TableData:: module to get list of words from a L<DBI> query.
 
 
 =head1 SEE ALSO
 
 L<DBI>
 
-L<Tables>
+L<TableData>

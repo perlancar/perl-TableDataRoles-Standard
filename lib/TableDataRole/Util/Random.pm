@@ -1,4 +1,4 @@
-package TablesRole::Util::Random;
+package TableDataRole::Util::Random;
 
 # AUTHORITY
 # DATE
@@ -18,7 +18,7 @@ sub _get_rand_rows {
     my ($self, $type, $num_items) = @_;
     my @items;
     my $i = -1;
-    $self->reset_iterator;
+    $self->reset_row_iterator;
     my $meth = $type eq 'arrayref' ? 'get_row_arrayref' : 'get_row_hashref';
     while (defined(my $item = $self->$meth)) {
         $i++;
@@ -66,7 +66,7 @@ This role provides some utility methods related to getting random rows from the
 table. Note that the methods perform a full, one-time, scan of the table using
 C<get_row_arrayref> or C<get_row_hashref>. For huge table, this might not be a
 good idea. Seekable table can use the more efficient
-L<TablesRole::Util::Random::Seekable>.
+L<TableDataRole::Util::Random::Seekable>.
 
 
 =head1 PROVIDED METHODS
@@ -108,8 +108,8 @@ than C<$n> rows, only that many rows will be returned.
 
 =head1 SEE ALSO
 
-L<TablesRole::Util::Random::Seekable>
+L<TableDataRole::Util::Random::Seekable>
 
-Other C<TablesRole::Util::*>
+Other C<TableDataRole::Util::*>
 
-L<Tables>
+L<TableData>

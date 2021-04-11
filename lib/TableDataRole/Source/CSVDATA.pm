@@ -1,4 +1,4 @@
-package TablesRole::Source::CSVDATA;
+package TableDataRole::Source::CSVDATA;
 
 # AUTHORITY
 # DATE
@@ -7,7 +7,7 @@ package TablesRole::Source::CSVDATA;
 
 use Role::Tiny;
 use Role::Tiny::With;
-with 'TablesRole::Spec::Basic';
+with 'TableDataRole::Spec::Basic';
 
 sub new {
     no strict 'refs';
@@ -30,7 +30,7 @@ sub new {
         fhpos_datarow_begin => $fhpos_datarow_begin,
         csv_parser => $csv_parser,
         columns => $columns,
-        i => 0, # iterator
+        index => 0, # iterator
     }, $class;
 }
 
@@ -40,7 +40,7 @@ sub as_csv {
     my $fh = $self->{fh};
     my $oldpos = tell $fh;
     seek $fh, $self->{fhpos_data_begin}, 0;
-    $self->{i} = -1;
+    $self->{index} = 0;
     local $/;
     scalar <$fh>;
 }
@@ -61,7 +61,7 @@ sub get_row_arrayref {
     my $fh = $self->{fh};
     my $row = $self->{csv_parser}->getline($fh);
     return unless $row;
-    $self->{i}++;
+    $self->{index}++;
     $row;
 }
 
@@ -69,7 +69,7 @@ sub get_row_count {
     my $self = shift;
 
     1 while my $row = $self->get_row_arrayref;
-    $self->{i};
+    $self->{index};
 }
 
 sub get_row_hashref {
@@ -86,11 +86,16 @@ sub get_row_hashref {
     $row_hashref;
 }
 
-sub reset_iterator {
+sub get_row_iterator_index {
+    my $self = shift;
+    $self->{index};
+}
+
+sub reset_row_iterator {
     my $self = shift;
     my $fh = $self->{fh};
     seek $fh, $self->{fhpos_datarow_begin}, 0;
-    $self->{i} = 0;
+    $self->{index} = 0;
 }
 
 1;
@@ -106,11 +111,13 @@ contain the column names.
 
 =head1 ROLES MIXED IN
 
-L<TablesRole::Spec::Basic>
+L<TableDataRole::Spec::Basic>
+
+L<TableDataRole::Util::CSV>
 
 
 =head1 SEE ALSO
 
-L<TablesRole::Source::CSVFile>
+L<TableDataRole::Source::CSVFile>
 
 =cut

@@ -1,4 +1,4 @@
-package TablesRole::Util::CSV;
+package TableDataRole::Util::CSV;
 
 # AUTHORITY
 # DATE
@@ -9,7 +9,7 @@ use 5.010001;
 use Role::Tiny;
 requires 'get_column_names';
 requires 'get_row_arrayref';
-requires 'reset_iterator';
+requires 'reset_row_iterator';
 
 sub as_csv {
     require Text::CSV_XS;
@@ -18,7 +18,7 @@ sub as_csv {
     $self->{csv_parser} //= Text::CSV_XS->new({binary=>1});
     my $csv = $self->{csv_parser};
 
-    $self->reset_iterator;
+    $self->reset_row_iterator;
 
     my $res = "";
     $csv->combine($self->get_column_names);

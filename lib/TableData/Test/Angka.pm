@@ -1,4 +1,4 @@
-package Tables::Test::Angka;
+package TableData::Test::Angka;
 
 # AUTHORITY
 # DATE
@@ -6,7 +6,7 @@ package Tables::Test::Angka;
 # VERSION
 
 use Role::Tiny::With;
-with 'TablesRole::Source::CSVDATA';
+with 'TableDataRole::Source::CSVDATA';
 
 1;
 # ABSTRACT: Number from 1-5 with English and Indonesian text

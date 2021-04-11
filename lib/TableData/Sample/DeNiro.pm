@@ -1,4 +1,4 @@
-package Tables::Sample::DeNiro;
+package TableData::Sample::DeNiro;
 
 # AUTHORITY
 # DATE
@@ -6,7 +6,7 @@ package Tables::Sample::DeNiro;
 # VERSION
 
 use Role::Tiny::With;
-with 'TablesRole::Source::CSVDATA';
+with 'TableDataRole::Source::CSVDATA';
 
 1;
 # ABSTRACT: Rotten Tomato ratings of movies with Robert De Niro

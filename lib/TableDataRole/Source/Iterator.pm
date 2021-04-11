@@ -1,4 +1,4 @@
-package TablesRole::Source::Iterator;
+package TableDataRole::Source::Iterator;
 
 # AUTHORITY
 # DATE
@@ -8,8 +8,7 @@ package TablesRole::Source::Iterator;
 use 5.010001;
 use Role::Tiny;
 use Role::Tiny::With;
-with 'TablesRole::Spec::Basic';
-with 'TablesRole::Util::CSV';
+with 'TableDataRole::Spec::Basic';
 
 sub _new {
     my ($class, %args) = @_;
@@ -24,13 +23,12 @@ sub _new {
         gen_iterator => $gen_iterator,
         gen_iterator_params => $gen_iterator_params,
         iterator => undef,
+        index => 0,
         # buffer => undef,
         # column_names => undef,
         # column_idxs  => undef,
     }, $class;
 }
-
-# as_csv from TablesRole::Util::CSV
 
 sub _get_row {
     # get a row from iterator or buffer, and empty the buffer
@@ -43,8 +41,10 @@ sub _get_row {
             return $row;
         }
     } else {
-        $self->reset_iterator unless $self->{iterator};
-        return $self->{iterator}->();
+        $self->reset_row_iterator unless $self->{iterator};
+        my $row = $self->{iterator}->();
+        return undef unless $row;
+        return $row;
     }
 }
 
@@ -53,7 +53,7 @@ sub _peek_row {
     # content if it exists.
     my $self = shift;
     unless ($self->{buffer}) {
-        $self->reset_iterator unless $self->{iterator};
+        $self->reset_row_iterator unless $self->{iterator};
         $self->{buffer} = $self->{iterator}->() // -1;
     }
     if (!ref($self->{buffer}) && $self->{buffer} == -1) {
@@ -98,12 +98,21 @@ sub get_row_arrayref {
         next unless defined $idx;
         $row_aryref->[$idx] = $row_hashref->{$_};
     }
+    $self->{index}++;
     $row_aryref;
+}
+
+sub get_row_hashref {
+    my $self = shift;
+    my $row_hashref = $self->_get_row;
+    return unless $row_hashref;
+    $self->{index}++;
+    $row_hashref;
 }
 
 sub get_row_count {
     my $self = shift;
-    $self->reset_iterator;
+    $self->reset_row_iterator;
     unless (defined $self->{row_count}) {
         my $i = 0;
         $i++ while $self->_get_row;
@@ -112,14 +121,16 @@ sub get_row_count {
     $self->{row_count};
 }
 
-sub get_row_hashref {
-    my $self = shift;
-    $self->_get_row;
-}
-
-sub reset_iterator {
+sub reset_row_iterator {
     my $self = shift;
     $self->{iterator} = $self->{gen_iterator}->(%{ $self->{gen_iterator_params} });
+    delete $self->{buffer};
+    $self->{index} = 0;
+}
+
+sub get_row_iterator_index {
+    my $self = shift;
+    $self->{index};
 }
 
 1;
@@ -129,9 +140,9 @@ sub reset_iterator {
 
 =head1 SYNOPSIS
 
- package Tables::YourTable;
+ package TableData::YourTable;
  use Role::Tiny::With;
- with 'TablesRole::Source::Iterator';
+ with 'TableDataRole::Source::Iterator';
 
  sub new {
      my $class = shift;
@@ -170,11 +181,11 @@ must return row on each call; the row must be a hashref.
 
 =head1 ROLES MIXED IN
 
-L<TablesRole::Spec::Basic>
+L<TableDataRole::Spec::Basic>
 
 
 =head1 SEE ALSO
 
-L<Tables>
+L<TableData>
 
 =cut

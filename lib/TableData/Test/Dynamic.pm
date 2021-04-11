@@ -1,4 +1,4 @@
-package Tables::Test::Dynamic;
+package TableData::Test::Dynamic;
 
 # AUTHORITY
 # DATE
@@ -9,7 +9,7 @@ use 5.010001;
 use strict;
 use warnings;
 use Role::Tiny::With;
-with 'TablesRole::Source::Iterator';
+with 'TableDataRole::Source::Iterator';
 
 sub new {
     my ($class, %args) = @_;
@@ -33,9 +33,9 @@ sub new {
 
 =head1 SYNOPSIS
 
- use Tables::Test::Dynamic;
+ use TableData::Test::Dynamic;
 
- my $table = Tables::Test::Dynamic->new(
+ my $table = TableData::Test::Dynamic->new(
      # num_rows => 100,   # default is 10
      # random => 1,       # if set to true, will return rows in a random order
  );
@@ -49,7 +49,7 @@ Create object.
 
 Usage:
 
- my $table = Tables::Test::Dynamic->new(%args);
+ my $table = TableData::Test::Dynamic->new(%args);
 
 Known arguments:
 

@@ -6,10 +6,10 @@ use Test::Exception;
 use Test::More 0.98;
 
 use Role::Tiny;
-use Tables::Test::Angka;
+use TableData::Test::Angka;
 
-my $t = Tables::Test::Angka->new;
-Role::Tiny->apply_roles_to_object($t, 'TablesRole::Util::Random');
+my $t = TableData::Test::Angka->new;
+Role::Tiny->apply_roles_to_object($t, 'TableDataRole::Util::Random');
 
 # minimal for now
 

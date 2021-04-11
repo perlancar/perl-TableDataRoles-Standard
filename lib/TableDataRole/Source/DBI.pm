@@ -1,4 +1,4 @@
-package TablesRole::Source::DBI;
+package TableDataRole::Source::DBI;
 
 # AUTHORITY
 # DATE
@@ -8,8 +8,8 @@ package TablesRole::Source::DBI;
 use 5.010001;
 use Role::Tiny;
 use Role::Tiny::With;
-with 'TablesRole::Spec::Basic';
-with 'TablesRole::Util::CSV';
+with 'TableDataRole::Spec::Basic';
+with 'TableDataRole::AsCSV';
 
 sub new {
     my ($class, %args) = @_;
@@ -71,6 +71,8 @@ sub new {
         sth_bind_params => $sth_bind_params,
         row_count_sth => $row_count_sth,
         row_count_sth_bind_params => $row_count_sth_bind_params,
+
+        index => 0,
     }, $class;
 }
 
@@ -86,7 +88,10 @@ sub get_column_names {
 
 sub get_row_arrayref {
     my $self = shift;
-    $self->{sth}->fetchrow_arrayref;
+    my $row = $self->{sth}->fetchrow_arrayref;
+    return undef unless $row;
+    $self->{index}++;
+    $row;
 }
 
 sub get_row_count {
@@ -98,12 +103,21 @@ sub get_row_count {
 
 sub get_row_hashref {
     my $self = shift;
-    $self->{sth}->fetchrow_hashref;
+    my $row = $self->{sth}->fetchrow_hashref;
+    return undef unless $row;
+    $self->{index}++;
+    $row;
 }
 
-sub reset_iterator {
+sub reset_row_iterator {
     my $self = shift;
     $self->{sth}->execute(@{ $self->{sth_bind_params} // [] });
+    $self->{index} = 0;
+}
+
+sub get_row_iterator_index {
+    my $self = shift;
+    $self->{index};
 }
 
 1;
@@ -150,13 +164,13 @@ specify C<row_count_query> or C<table>, you need to specify L</dbh> or L</dsn>.
 
 =head1 ROLES MIXED IN
 
-L<TablesRole::Spec::Basic>
+L<TableDataRole::Spec::Basic>
 
 
 =head1 SEE ALSO
 
 L<DBI>
 
-L<Tables>
+L<TableData>
 
 =cut
