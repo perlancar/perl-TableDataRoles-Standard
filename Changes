@@ -1,3 +1,15 @@
+0.007   2021-04-11  Released-By: PERLANCAR; Urgency: medium; Backward-Incompatible: yes
+
+	- Rename modules/dist TablesRoles-Standard -> TableDataRoles-Standard.
+	  Update to latest TableData spec.
+
+	[Removed]
+
+        - Remove TableRole::Util::Basic, now merged into for greater visibility
+	  and convenience. as_aoa() now becomes get_all_rows_arrayref(),
+	  as_aoh() now becomes get_all_rows_hashref().
+
+
 0.006   2020-11-10  Released-By: PERLANCAR; Urgency: medium
 
 	- [bugfix] Handle first row is empty.
