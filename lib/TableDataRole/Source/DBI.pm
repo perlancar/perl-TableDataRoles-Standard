@@ -9,7 +9,7 @@ use 5.010001;
 use Role::Tiny;
 use Role::Tiny::With;
 with 'TableDataRole::Spec::Basic';
-with 'TableDataRole::AsCSV';
+with 'TableDataRole::Util::CSV';
 
 sub new {
     my ($class, %args) = @_;
@@ -165,6 +165,8 @@ specify C<row_count_query> or C<table>, you need to specify L</dbh> or L</dsn>.
 =head1 ROLES MIXED IN
 
 L<TableDataRole::Spec::Basic>
+
+L<TableDataRole::Util::CSV>
 
 
 =head1 SEE ALSO
