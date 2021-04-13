@@ -37,15 +37,6 @@ sub get_column_count {
 
 sub get_column_names {
     my $self = shift;
-    my $aoh = $self->{aoh};
-    unless (@$aoh) {
-        return 0;
-    }
-    scalar keys(%{ $aoh->[0] });
-}
-
-sub get_column_names {
-    my $self = shift;
     unless ($self->{column_names}) {
         my $aoh = $self->{aoh};
         $self->{column_names} = [];
