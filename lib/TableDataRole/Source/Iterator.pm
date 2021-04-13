@@ -146,7 +146,7 @@ sub get_row_iterator_index {
 
  sub new {
      my $class = shift;
-     $class->init(
+     $class->_new(
          gen_iterator => sub {
              return sub {
                  ...
@@ -158,6 +158,11 @@ sub get_row_iterator_index {
 
 =head1 DESCRIPTION
 
+This role retrieves rows from an iterator. Iterator must return row must return
+hashref row on each call.
+
+C<reset_row_iterator()> will regenerate a new iterator.
+
 
 =head1 METHODS
 
@@ -165,7 +170,7 @@ sub get_row_iterator_index {
 
 Create object. This should be called by a consumer's C<new>. Usage:
 
- my $table = $CLASS->init(%args);
+ my $table = $CLASS->_new(%args);
 
 Arguments:
 
@@ -173,8 +178,7 @@ Arguments:
 
 =item * gen_iterator
 
-Coderef. Required. Must return another coderef which is the iterator. Iterator
-must return row on each call; the row must be a hashref.
+Coderef. Required. Must return another coderef which is the iterator.
 
 =back
 
