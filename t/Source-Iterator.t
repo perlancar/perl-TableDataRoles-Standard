@@ -5,9 +5,9 @@ use warnings;
 use Test::Exception;
 use Test::More 0.98;
 
-use TableData::Test::Dynamic;
+use TableData::Test::Source::Iterator;
 
-my $t = TableData::Test::Dynamic->new(num_rows=>3);
+my $t = TableData::Test::Source::Iterator->new(num_rows=>3);
 
 is($t->get_column_count, 1);
 is_deeply([$t->get_column_names], [qw/i/]);

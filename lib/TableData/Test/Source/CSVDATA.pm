@@ -1,4 +1,4 @@
-package TableData::Test::Angka;
+package TableData::Test::Source::CSVDATA;
 
 # AUTHORITY
 # DATE
