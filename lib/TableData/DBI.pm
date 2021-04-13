@@ -34,7 +34,7 @@ with 'TableDataRole::Source::DBI';
 
 =head1 DESCRIPTION
 
-This is a TableData:: module to get list of words from a L<DBI> query.
+This is a TableData:: module to table data from a L<DBI> query/table.
 
 
 =head1 SEE ALSO
