@@ -1,4 +1,4 @@
-package TableData::Test::Source::CSVDATA;
+package TableData::Test::Source::CSVInDATA;
 
 # AUTHORITY
 # DATE
@@ -6,7 +6,7 @@ package TableData::Test::Source::CSVDATA;
 # VERSION
 
 use Role::Tiny::With;
-with 'TableDataRole::Source::CSVDATA';
+with 'TableDataRole::Source::CSVInDATA';
 
 1;
 # ABSTRACT: Number from 1-5 with English and Indonesian text

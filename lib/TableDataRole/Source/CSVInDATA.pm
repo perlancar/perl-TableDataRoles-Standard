@@ -1,4 +1,4 @@
-package TableDataRole::Source::CSVDATA;
+package TableDataRole::Source::CSVInDATA;
 
 # AUTHORITY
 # DATE

@@ -6,9 +6,9 @@ use Test::Exception;
 use Test::More 0.98;
 
 use Role::Tiny;
-use TableData::Test::Source::CSVDATA;
+use TableData::Test::Source::CSVInDATA;
 
-my $t = TableData::Test::Source::CSVDATA->new;
+my $t = TableData::Test::Source::CSVInDATA->new;
 Role::Tiny->apply_roles_to_object($t, 'TableDataRole::Util::Random');
 
 # minimal for now
