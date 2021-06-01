@@ -8,8 +8,9 @@ package TableDataRole::Util::CSV;
 use 5.010001;
 use Role::Tiny;
 requires 'get_column_names';
-requires 'get_row_arrayref';
-requires 'reset_row_iterator';
+requires 'has_next_item';
+requires 'get_next_item';
+requires 'reset_iterator';
 
 sub as_csv {
     require Text::CSV_XS;
@@ -18,12 +19,13 @@ sub as_csv {
     $self->{csv_parser} //= Text::CSV_XS->new({binary=>1});
     my $csv = $self->{csv_parser};
 
-    $self->reset_row_iterator;
+    $self->reset_iterator;
 
     my $res = "";
     $csv->combine($self->get_column_names);
     $res .= $csv->string . "\n";
-    while (my $row = $self->get_row_arrayref) {
+    while ($self->has_next_item) {
+        my $row = $self->get_next_item;
         $csv->combine(@$row);
         $res .= $csv->string . "\n";
     }

@@ -30,7 +30,7 @@ sub new {
         fhpos_datarow_begin => $fhpos_datarow_begin,
         csv_parser => $csv_parser,
         columns => $columns,
-        index => 0, # iterator
+        pos => 0, # iterator
     }, $class;
 }
 
@@ -56,46 +56,40 @@ sub get_column_names {
     wantarray ? @{ $self->{columns} } : $self->{columns};
 }
 
-sub get_row_arrayref {
+sub has_next_item {
     my $self = shift;
     my $fh = $self->{fh};
+    !eof($fh);
+}
+
+sub get_next_item {
+    my $self = shift;
+    my $fh = $self->{fh};
+    die "StopIteration" if eof($fh);
     my $row = $self->{csv_parser}->getline($fh);
-    return unless $row;
     $self->{index}++;
     $row;
 }
 
-sub get_row_count {
+sub get_next_row_hashref {
     my $self = shift;
-
-    1 while my $row = $self->get_row_arrayref;
-    $self->{index};
+    my $fh = $self->{fh};
+    die "StopIteration" if eof($fh);
+    my $row = $self->{csv_parser}->getline($fh);
+    $self->{index}++;
+    +{ map {($self->{columns}[$_] => $row->[$_])} 0..$#{$self->{columns}} };
 }
 
-sub get_row_hashref {
+sub get_iterator_pos {
     my $self = shift;
-    my $row_arrayref = $self->get_row_arrayref;
-    return unless $row_arrayref;
-
-    # convert to hashref
-    my $row_hashref = {};
-    my $columns = $self->{columns};
-    for my $i (0 .. $#{$columns}) {
-        $row_hashref->{ $columns->[$i] } = $row_arrayref->[$i];
-    }
-    $row_hashref;
+    $self->{pos};
 }
 
-sub get_row_iterator_index {
-    my $self = shift;
-    $self->{index};
-}
-
-sub reset_row_iterator {
+sub reset_iterator {
     my $self = shift;
     my $fh = $self->{fh};
     seek $fh, $self->{fhpos_datarow_begin}, 0;
-    $self->{index} = 0;
+    $self->{pos} = 0;
 }
 
 1;
@@ -113,11 +107,17 @@ contain the column names.
 
 L<TableDataRole::Spec::Basic>
 
-L<TableDataRole::Util::CSV>
+
+=head1 PROVIDED METHODS
+
+=head2 as_csv
+
+A more efficient version than one provided by L<TableDataRole::Util::CSV>, since
+the data is already in CSV form.
 
 
 =head1 SEE ALSO
 
-L<TableDataRole::Source::CSVFile>
+L<TableDataRole::Source::CSVInFile>
 
 =cut

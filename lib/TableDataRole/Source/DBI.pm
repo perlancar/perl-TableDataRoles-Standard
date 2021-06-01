@@ -9,7 +9,6 @@ use 5.010001;
 use Role::Tiny;
 use Role::Tiny::With;
 with 'TableDataRole::Spec::Basic';
-with 'TableDataRole::Util::CSV';
 
 sub new {
     my ($class, %args) = @_;
@@ -72,8 +71,39 @@ sub new {
         row_count_sth => $row_count_sth,
         row_count_sth_bind_params => $row_count_sth_bind_params,
 
-        index => 0,
+        pos => 0,
     }, $class;
+}
+
+sub _get_row {
+    # get a hashref row from sth, and empty the buffer
+    my $self = shift;
+    if ($self->{buffer}) {
+        my $row = delete $self->{buffer};
+        if (!ref($row) && $row == -1) {
+            return undef;
+        } else {
+            return $row;
+        }
+    } else {
+        my $row = $self->{sth}->fetchrow_hashref;
+        return undef unless $row;
+        return $row;
+    }
+}
+
+sub _peek_row {
+    # get a row from iterator, put it in buffer. will return the existing buffer
+    # content if it exists.
+    my $self = shift;
+    unless ($self->{buffer}) {
+        $self->{buffer} = $self->{sth}->fetchrow_hashref // -1;
+    }
+    if (!ref($self->{buffer}) && $self->{buffer} == -1) {
+        return undef;
+    } else {
+        return $self->{buffer};
+    }
 }
 
 sub get_column_count {
@@ -86,11 +116,29 @@ sub get_column_names {
     wantarray ? @{ $self->{sth}{NAME_lc} } : $self->{sth}{NAME_lc};
 }
 
-sub get_row_arrayref {
+sub has_next_item {
     my $self = shift;
-    my $row = $self->{sth}->fetchrow_arrayref;
-    return undef unless $row;
-    $self->{index}++;
+    $self->_peek_row ? 1:0;
+}
+
+sub get_next_item {
+    my $self = shift;
+    my $row_hashref = $self->_get_row;
+    die "StopIteration" unless $row_hashref;
+    $self->{pos}++;
+    my $row_aryref = [];
+    my $column_names = $self->get_column_names;
+    for (0..$#{$column_names}) {
+        $row_aryref->[$_] = $row_hashref->{ $column_names->[$_] };
+    }
+    $row_aryref;
+}
+
+sub get_next_row_hashref {
+    my $self = shift;
+    my $row = $self->_get_row;
+    die "StopIteration" unless $row;
+    $self->{pos}++;
     $row;
 }
 
@@ -101,23 +149,16 @@ sub get_row_count {
     $row_count;
 }
 
-sub get_row_hashref {
-    my $self = shift;
-    my $row = $self->{sth}->fetchrow_hashref;
-    return undef unless $row;
-    $self->{index}++;
-    $row;
-}
-
-sub reset_row_iterator {
+sub reset_iterator {
     my $self = shift;
     $self->{sth}->execute(@{ $self->{sth_bind_params} // [] });
-    $self->{index} = 0;
+    delete $self->{buffer};
+    $self->{pos} = 0;
 }
 
-sub get_row_iterator_index {
+sub get_iterator_pos {
     my $self = shift;
-    $self->{index};
+    $self->{pos};
 }
 
 1;
@@ -165,8 +206,6 @@ specify C<row_count_query> or C<table>, you need to specify L</dbh> or L</dsn>.
 =head1 ROLES MIXED IN
 
 L<TableDataRole::Spec::Basic>
-
-L<TableDataRole::Util::CSV>
 
 
 =head1 SEE ALSO

@@ -19,12 +19,12 @@ _
 
 is($t->get_column_count, 3);
 is_deeply([$t->get_column_names], [qw/number en_name id_name/]);
-$t->reset_row_iterator;
-is_deeply($t->get_row_arrayref, [qw/1 one satu/]);
-is_deeply($t->get_row_hashref , {number=>2, en_name=>"two", id_name=>"dua"});
-is_deeply($t->get_row_arrayref, [qw/3 three tiga/]);
-$t->reset_row_iterator;
-is_deeply($t->get_row_hashref , {number=>1, en_name=>"one", id_name=>"satu"});
+$t->reset_iterator;
+is_deeply($t->get_next_item, [qw/1 one satu/]);
+is_deeply($t->get_next_row_hashref , {number=>2, en_name=>"two", id_name=>"dua"});
+is_deeply($t->get_next_row_arrayref, [qw/3 three tiga/]);
+$t->reset_iterator;
+is_deeply($t->get_next_row_hashref , {number=>1, en_name=>"one", id_name=>"satu"});
 is($t->get_row_count, 5);
 
 done_testing;
