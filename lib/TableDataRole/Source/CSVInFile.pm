@@ -52,7 +52,7 @@ sub as_csv {
     my $fh = $self->{fh};
     my $oldpos = tell $fh;
     seek $fh, $self->{fhpos_data_begin}, 0;
-    $self->{index} = 0;
+    $self->{pos} = 0;
     local $/;
     scalar <$fh>;
 }
@@ -79,7 +79,7 @@ sub get_next_item {
     my $fh = $self->{fh};
     die "StopIteration" if eof($fh);
     my $row = $self->{csv_parser}->getline($fh);
-    $self->{index}++;
+    $self->{pos}++;
     $row;
 }
 
@@ -88,7 +88,7 @@ sub get_next_row_hashref {
     my $fh = $self->{fh};
     die "StopIteration" if eof($fh);
     my $row = $self->{csv_parser}->getline($fh);
-    $self->{index}++;
+    $self->{pos}++;
     +{ map {($self->{columns}[$_] => $row->[$_])} 0..$#{$self->{columns}} };
 }
 
@@ -159,12 +159,12 @@ Constructor. Known arguments:
 
 =item * filename
 
-Supply path to the CSV file. Alternatively, you can also pass C<ilehandle>
+Supply path to the CSV file. Alternatively, you can also pass C<filehandle>
 instead. Either C<filename> or C<filehandle> is required.
 
 =item * filehandle
 
-Supply handle to the CSV file. Alternatively, you can also pass C<ilename>
+Supply handle to the CSV file. Alternatively, you can also pass C<filename>
 instead. Either C<filename> or C<filehandle> is required.
 
 =back
