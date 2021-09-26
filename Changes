@@ -1,3 +1,9 @@
+0.010   2021-09-26  Released-By: PERLANCAR; Urgency: medium
+
+	- Add roles: TableDataRole::Source::CSVInFile,
+          TableDataRole::Source::CSVInFiles.
+
+
 0.009   2021-06-01  Released-By: PERLANCAR; Urgency: medium; Backward-Incompatible: yes
 
 	- [Incompatible change] Update to TableData 0.2.0.
