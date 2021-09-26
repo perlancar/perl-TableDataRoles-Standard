@@ -1,13 +1,16 @@
 package TableDataRole::Source::Iterator;
 
+use 5.010001;
+use strict;
+use warnings;
+
+use Role::Tiny;
+
 # AUTHORITY
 # DATE
 # DIST
 # VERSION
 
-use 5.010001;
-use Role::Tiny;
-use Role::Tiny::With;
 with 'TableDataRole::Spec::Basic';
 
 sub _new {
@@ -36,14 +39,14 @@ sub _get_row {
     if ($self->{buffer}) {
         my $row = delete $self->{buffer};
         if (!ref($row) && $row == -1) {
-            return undef;
+            return undef; ## no critic: Subroutines::ProhibitExplicitReturnUndef
         } else {
             return $row;
         }
     } else {
         $self->reset_iterator unless $self->{iterator};
         my $row = $self->{iterator}->();
-        return undef unless $row;
+        return undef unless $row; ## no critic: Subroutines::ProhibitExplicitReturnUndef
         return $row;
     }
 }
@@ -57,7 +60,7 @@ sub _peek_row {
         $self->{buffer} = $self->{iterator}->() // -1;
     }
     if (!ref($self->{buffer}) && $self->{buffer} == -1) {
-        return undef;
+        return undef; ## no critic: Subroutines::ProhibitExplicitReturnUndef
     } else {
         return $self->{buffer};
     }

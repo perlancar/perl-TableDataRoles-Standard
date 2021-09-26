@@ -1,11 +1,16 @@
 package TableData::Test::Source::CSVInDATA;
 
+use 5.010001;
+use strict;
+use warnings;
+
+use Role::Tiny::With;
+
 # AUTHORITY
 # DATE
 # DIST
 # VERSION
 
-use Role::Tiny::With;
 with 'TableDataRole::Source::CSVInDATA';
 
 1;

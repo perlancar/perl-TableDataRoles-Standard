@@ -1,12 +1,16 @@
 package TableDataRole::Util::CSV;
 
+use 5.010001;
+use strict;
+use warnings;
+
+use Role::Tiny;
+
 # AUTHORITY
 # DATE
 # DIST
 # VERSION
 
-use 5.010001;
-use Role::Tiny;
 requires 'get_column_names';
 requires 'has_next_item';
 requires 'get_next_item';

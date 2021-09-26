@@ -1,13 +1,16 @@
 package TableDataRole::Source::AOH;
 
+use 5.010001;
+use strict;
+use warnings;
+
+use Role::Tiny;
+
 # AUTHORITY
 # DATE
 # DIST
 # VERSION
 
-use 5.010001;
-use Role::Tiny;
-use Role::Tiny::With;
 with 'TableDataRole::Spec::Basic';
 
 sub new {

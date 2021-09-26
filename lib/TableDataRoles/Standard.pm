@@ -1,3 +1,5 @@
+# no code
+## no critic: TestingAndDebugging::RequireUseStrict
 package TableDataRoles::Standard;
 
 # AUTHORITY

@@ -1,14 +1,16 @@
 package TableData::Test::Source::Iterator;
 
+use 5.010001;
+use strict;
+use warnings;
+
+use Role::Tiny::With;
+
 # AUTHORITY
 # DATE
 # DIST
 # VERSION
 
-use 5.010001;
-use strict;
-use warnings;
-use Role::Tiny::With;
 with 'TableDataRole::Source::Iterator';
 
 sub new {
@@ -21,7 +23,7 @@ sub new {
             my $i = 0;
             sub {
                 $i++;
-                return undef if $i > $args{num_rows};
+                return undef if $i > $args{num_rows}; ## no critic: Subroutines::ProhibitExplicitReturnUndef
                 return {i=>$args{random} ? int(rand()*$args{num_rows} + 1) : $i};
             };
         },
