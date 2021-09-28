@@ -20,7 +20,7 @@ with 'TableDataRole::Source::AOH';
 
  use TableData::AOH;
 
- my $table = TableData::DBI->new(
+ my $table = TableData::AOH->new(
      aoh => [{col1=>1,col2=>2}, {col1=>3,col2=>4}],
  );
 
@@ -31,5 +31,7 @@ This is a TableData:: module to get table data from array of hashes.
 
 
 =head1 SEE ALSO
+
+L<TableData::AOA>
 
 L<TableData>
