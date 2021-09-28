@@ -1,3 +1,11 @@
+0.012   2021-09-28  Released-By: PERLANCAR; Urgency: medium
+
+	- Add roles: TableDataRole::Munge::Filter, TableDataRole::Munge::Concat.
+
+	- [role TableDataRole::Source::CSVInFile] add DESTROY() to reset
+	  __DATA__ position to beginning.
+
+
 0.011   2021-09-28  Released-By: PERLANCAR; Urgency: medium
 
 	- Add roles: TableDataRole::Munge::Reverse, TableDataRole::Source::AOA.
