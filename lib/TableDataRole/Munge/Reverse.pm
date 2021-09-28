@@ -94,6 +94,8 @@ Required. Name of tabledata module (without the C<TableData::> prefix), with
 optional arguments. See
 L<Module::Load::Util/instantiate_class_with_optional_args> for more details.
 
+=back
+
 
 =head1 SEE ALSO
 
