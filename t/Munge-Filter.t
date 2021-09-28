@@ -7,8 +7,6 @@ use Test::More 0.98;
 
 use TableData::Munge::Filter;
 
-my $t2;
-
 my $t1 = TableData::Munge::Filter->new(
     tabledata => 'Sample::DeNiro',
     filter => sub { my $row=shift; $row->[0] <= 1979 },
