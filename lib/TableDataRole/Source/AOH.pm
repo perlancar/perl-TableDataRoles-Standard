@@ -89,7 +89,6 @@ sub get_row_count {
 
 sub reset_iterator {
     my $self = shift;
-    delete $self->{buffer};
     $self->{pos} = 0;
 }
 
@@ -119,6 +118,8 @@ L<TableDataRole::Spec::Basic>
 
 
 =head1 SEE ALSO
+
+L<TableDataRole::Source::AOA>
 
 L<TableData>
 
