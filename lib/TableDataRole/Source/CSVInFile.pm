@@ -104,6 +104,12 @@ sub reset_iterator {
     $self->{pos} = 0;
 }
 
+sub DESTROY {
+    my $self = shift;
+    my $fh = $self->{fh};
+    seek $fh, $self->{fhpos_data_begin}, 0;
+}
+
 1;
 # ABSTRACT: Role to access table data from CSV in a file/filehandle
 
