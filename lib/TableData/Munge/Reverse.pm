@@ -27,7 +27,8 @@ with 'TableDataRole::Munge::Reverse';
 
 =head1 DESCRIPTION
 
-This is a TableData:: module reverse the order of rows of another tabledata.
+This is a TableData:: module that reverses the order of rows of another
+tabledata. See L<TableDataRole::Munge::Reverse> for more details.
 
 
 =head1 SEE ALSO
