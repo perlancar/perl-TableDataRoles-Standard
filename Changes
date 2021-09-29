@@ -1,3 +1,11 @@
+0.013   2021-09-29  Released-By: PERLANCAR; Urgency: medium
+
+	- [role TableDataRole::Munge::Filter] Allow string form of 'filter'
+	  & 'filter_hashref' for ease of specification from command-line.
+
+	- Add Rinci metadata for constructors of TableData::*.
+
+
 0.012   2021-09-28  Released-By: PERLANCAR; Urgency: medium
 
 	- Add roles: TableDataRole::Munge::Filter, TableDataRole::Munge::Concat.
