@@ -13,6 +13,24 @@ use Role::Tiny::With;
 
 with 'TableDataRole::Source::AOA';
 
+our %SPEC;
+
+$SPEC{new} = {
+    v => 1.1,
+    is_meth => 1,
+    is_func => 0,
+    args => {
+        aoa => {
+            schema => 'aoa*',
+            req => 1,
+        },
+        column_names => {
+            schema => 'aos*',
+            req => 1,
+        },
+    },
+};
+
 1;
 # ABSTRACT: Get table data from array of arrays
 

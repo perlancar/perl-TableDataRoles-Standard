@@ -13,6 +13,20 @@ use Role::Tiny::With;
 
 with 'TableDataRole::Source::AOH';
 
+our %SPEC;
+
+$SPEC{new} = {
+    v => 1.1,
+    is_meth => 1,
+    is_func => 0,
+    args => {
+        aoh => {
+            schema => 'aoh*',
+            req => 1,
+        },
+    },
+};
+
 1;
 # ABSTRACT: Get table data from array of hashes
 

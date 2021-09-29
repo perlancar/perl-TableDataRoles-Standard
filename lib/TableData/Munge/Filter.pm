@@ -13,6 +13,29 @@ use Role::Tiny::With;
 
 with 'TableDataRole::Munge::Filter';
 
+our %SPEC;
+
+$SPEC{new} = {
+    v => 1.1,
+    is_meth => 1,
+    is_func => 0,
+    args => {
+        tabledata => {
+            schema => 'any*', # TMP
+            req => 1,
+        },
+        filter => {
+            schema => ['any*', of=>['str*', 'code*']],
+        },
+        filter_hashref => {
+            schema => ['any*', of=>['str*', 'code*']],
+        },
+    },
+    args_rels => {
+        req_one => [qw/filter filter_hashref/],
+    },
+};
+
 1;
 # ABSTRACT: Filter rows of another tabledata
 

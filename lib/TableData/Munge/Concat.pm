@@ -13,6 +13,20 @@ use Role::Tiny::With;
 
 with 'TableDataRole::Munge::Concat';
 
+our %SPEC;
+
+$SPEC{new} = {
+    v => 1.1,
+    is_meth => 1,
+    is_func => 0,
+    args => {
+        tabledatalist => {
+            schema => ['array*', min_len=>1], # TMP
+            req => 1,
+        },
+    },
+};
+
 1;
 # ABSTRACT: Access a series of other tabledata instances
 
