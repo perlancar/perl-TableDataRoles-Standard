@@ -3,6 +3,7 @@ package TableDataRole::Munge::Filter;
 use 5.010001;
 use strict;
 use warnings;
+use Log::ger;
 
 use Role::Tiny;
 
@@ -23,6 +24,15 @@ sub new {
     my $filter = delete $args{filter};
     my $filter_hashref = delete $args{filter_hashref};
     ($filter || $filter_hashref) or die "Please supply 'filter' or 'filter_hashref' argument";
+    for ($filter, $filter_hashref) {
+        next unless defined;
+        unless (ref $_ eq 'CODE') {
+            my $code = "package main; sub { no strict; no warnings; $_ }";
+            log_trace "Eval-ing: $code";
+            $_ = eval $code; ## no critic: BuiltinFunctions::ProhibitStringyEval
+            die if $@;
+        }
+    }
     die "Unknown argument(s): ". join(", ", sort keys %args)
         if keys %args;
 
