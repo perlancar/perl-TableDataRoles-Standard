@@ -106,6 +106,8 @@ This is a TableData:: module to table data from a L<DBI> query/table.
 
 =head1 SEE ALSO
 
+L<TableData::SQLite>
+
 L<DBI>
 
 L<TableData>

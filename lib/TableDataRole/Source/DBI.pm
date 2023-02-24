@@ -213,6 +213,8 @@ L<TableDataRole::Spec::Basic>
 
 =head1 SEE ALSO
 
+L<TableDataRole::Source::SQLite>
+
 L<DBI>
 
 L<TableData>
