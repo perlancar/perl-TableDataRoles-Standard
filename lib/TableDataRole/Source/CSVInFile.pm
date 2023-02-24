@@ -29,7 +29,7 @@ sub new {
     die "Unknown argument(s): ". join(", ", sort keys %args)
         if keys %args;
 
-    my $csv_parser = Text::CSV_XS->new({binary=>1});
+    my $csv_parser = Text::CSV_XS->new({binary=>1, auto_diag=>9, diag_verbose=>1});
 
     my $fhpos_data_begin = tell $fh;
     my $columns = $csv_parser->getline($fh)
