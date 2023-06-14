@@ -18,6 +18,7 @@ sub new {
 
     my $tabledatalist = delete $args{tabledatalist}
         or die "Please supply 'tabledatalist' argument";
+    my $load = delete($args{load}) // 1;
     die "Please supply at least one tabledata in tabledatalist"
         unless @$tabledatalist;
     die "Unknown argument(s): ". join(", ", sort keys %args)
@@ -25,6 +26,7 @@ sub new {
 
     bless {
         tabledatalist => [@$tabledatalist],
+        load => $load,
         td_pos => 0, # which tabledata are we at
         pos => 0, # iterator
     }, $class;
@@ -38,7 +40,7 @@ sub _tabledatalist {
     my $td = $self->{tabledatalist}[$idx];
     unless (ref $td) {
         $td = Module::Load::Util::instantiate_class_with_optional_args(
-            {ns_prefix=>"TableData"}, $td);
+            {load=>$self->{load}, ns_prefix=>"TableData"}, $td);
         $self->{tabledatalist}[$idx] = $td;
     }
     $td;
@@ -152,6 +154,10 @@ with optional arguments (see L<Module::Load::Util> for more details).
 At least one tabledata module is required.
 
 All tabledata must have identical columns.
+
+=item * load
+
+Passed to L<Module::Load::Util>'s C<instantiate_class_with_optional_args>.
 
 =back
 

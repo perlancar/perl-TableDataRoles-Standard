@@ -36,11 +36,12 @@ sub new {
             die if $@;
         }
     }
+    my $load = delete($args{load}) // 1;
     die "Unknown argument(s): ". join(", ", sort keys %args)
         if keys %args;
 
-    $tabledata = Module::Load::Util::instantiate_class_with_optional_args({ns_prefix=>"TableData"}, $tabledata);
-    my $column_names = $munge_column_names->($tabledata->get_column_names);
+    $tabledata = Module::Load::Util::instantiate_class_with_optional_args({load=>$load, ns_prefix=>"TableData"}, $tabledata);
+    my $column_names = $munge_column_names->(scalar $tabledata->get_column_names);
 
     bless {
         tabledata => $tabledata,
@@ -80,7 +81,7 @@ sub _fill_buffer {
             my $row_hashref = { map {$self->{column_names}[$_] => $row->[$_]} 0..$#{$row} };
             my $munged_row_hashref = $self->{munge_hashref}->($row_hashref);
             my $munged_row = [];
-            $munged_row->[ $self->{column_idxs}{$_} ] = $munged_row->{$_} for keys %$munged_row;
+            $munged_row->[ $self->{column_idxs}{$_} ] = $munged_row_hashref->{$_} for keys %$munged_row_hashref;
             $self->{buffer} = $munged_row;
             return;
         }
@@ -197,6 +198,10 @@ A coderef to munge columns of each data row. Will be passed a hashref which is
 the row to munge. Must return hashref containing the munged row.
 
 Either C<munge> B<or> C<munge_hashref> must be specified.
+
+=item * load
+
+Passed to L<Module::Load::Util>'s C<instantiate_class_with_optional_args>.
 
 =back
 

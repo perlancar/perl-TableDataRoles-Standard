@@ -33,10 +33,11 @@ sub new {
             die if $@;
         }
     }
+    my $load = delete($args{load}) // 1;
     die "Unknown argument(s): ". join(", ", sort keys %args)
         if keys %args;
 
-    $tabledata = Module::Load::Util::instantiate_class_with_optional_args({ns_prefix=>"TableData"}, $tabledata);
+    $tabledata = Module::Load::Util::instantiate_class_with_optional_args({load=>$load, ns_prefix=>"TableData"}, $tabledata);
     my $column_names = $tabledata->get_column_names;
 
     bless {
@@ -186,6 +187,10 @@ A coderef to filter the rows. Will be passed a B<hashref> which is the row to
 filter. Must return true if the row should be included, or false if otherwise.
 
 Either C<filter> B<or> C<filter_hashref> must be specified.
+
+=item * load
+
+Passed to L<Module::Load::Util>'s C<instantiate_class_with_optional_args>.
 
 =back
 
