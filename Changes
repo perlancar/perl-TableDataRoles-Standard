@@ -2,7 +2,7 @@
 
         - Add role: Munge::MungeColumns.
 
-        - [role Munge::*] Add 'load' option (from Module::Load::Util 0.09).
+        - [role Munge::*] Add 'load' option (from Module::Load::Util 0.009).
 
 
 0.015   2023-02-24  Released-By: PERLANCAR; Urgency: medium
