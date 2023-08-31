@@ -1,3 +1,8 @@
+0.017   2023-08-31  Released-By: PERLANCAR; Urgency: medium
+
+        - [role Source::AOA] Follow Spec::GetRowByPos.
+
+
 0.016   2023-06-14  Released-By: PERLANCAR; Urgency: medium
 
         - Add role: Munge::MungeColumns.
