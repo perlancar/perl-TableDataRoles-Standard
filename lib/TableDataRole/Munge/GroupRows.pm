@@ -46,9 +46,9 @@ sub new {
                 defined $key or die "BUG: calc_key produced undef key!";
                 unless (defined $rownum{$key}) {
                     $rownum{$key} = @$aoa;
-                    $aoa->[ $rownum{$key} ] //= [];
+                    $aoa->[ $rownum{$key} ] //= [$key, []];
                 }
-                push @{ $aoa->[ $rownum{$key} ] }, $row_arrayref;
+                push @{ $aoa->[ $rownum{$key} ][1] }, $row_arrayref;
             });
     }
 
