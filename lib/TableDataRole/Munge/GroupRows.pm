@@ -54,6 +54,7 @@ sub new {
 
     bless {
         tabledata => $tabledata,
+        _tabledata => $td,
         column_names => [$key, 'rows'],
         column_idxs => {$key=>0, rows=>1},
         aoa => $aoa,
