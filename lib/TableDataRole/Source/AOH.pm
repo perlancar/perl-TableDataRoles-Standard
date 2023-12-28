@@ -20,13 +20,26 @@ sub new {
     die "Unknown argument(s): ". join(", ", sort keys %args)
         if keys %args;
 
-    bless {
+    my $self = {
         aoh => $aoh,
         pos => 0,
         # buffer => undef,
         # column_names => undef,
         # column_idxs  => undef,
-    }, $class;
+    };
+
+    $self->{column_names} = [];
+    $self->{column_idxs} = {};
+    if (@$aoh) {
+        my $row = $aoh->[0];
+        my $i = -1;
+        for (sort keys %$row) {
+            push @{ $self->{column_names} }, $_;
+            $self->{column_idxs}{$_} = ++$i;
+        }
+    }
+
+    bless $self, $class;
 }
 
 sub get_column_count {
@@ -40,19 +53,6 @@ sub get_column_count {
 
 sub get_column_names {
     my $self = shift;
-    unless ($self->{column_names}) {
-        my $aoh = $self->{aoh};
-        $self->{column_names} = [];
-        $self->{column_idxs} = {};
-        if (@$aoh) {
-            my $row = $aoh->[0];
-            my $i = -1;
-            for (sort keys %$row) {
-                push @{ $self->{column_names} }, $_;
-                $self->{column_idxs}{$_} = ++$i;
-            }
-        }
-    }
     wantarray ? @{ $self->{column_names} } : $self->{column_names};
 }
 
