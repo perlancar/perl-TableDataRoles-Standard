@@ -16,6 +16,14 @@ with 'TableDataRole::Source::CSVInDATA';
 1;
 # ABSTRACT: Rotten Tomato ratings of movies with Robert De Niro
 
+=head1 SEE ALSO
+
+L<ArrayData::Sample::DeNiro>
+
+L<HashData::Sample::DeNiro>
+
+=cut
+
 __DATA__
 "Year","Score","Title"
 1968,86,"Greetings"
