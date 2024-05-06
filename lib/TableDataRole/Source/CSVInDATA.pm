@@ -23,6 +23,12 @@ around new => sub {
     no strict 'refs'; ## no critic: TestingAndDebugging::ProhibitNoStrict
     my $fh = \*{"$class\::DATA"};
 
+    if (defined ${"$class\::_TableData_fhpos_data_begin_cache"}) {
+        seek $fh, ${"$class\::_TableData_fhpos_data_begin_cache"}, 0;
+    } else {
+        ${"$class\::_TableData_fhpos_data_begin_cache"} = tell $fh;
+    }
+
     my $obj = $orig->(@_, filehandle => $fh);
 };
 
