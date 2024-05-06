@@ -1,3 +1,9 @@
+0.024   2024-05-06  Released-By: PERLANCAR; Urgency: medium
+
+        - [bugfix] Source::CSVInDATA role didn't record the original
+          position for subsequent instances.
+
+
 0.023   2024-01-15  Released-By: PERLANCAR; Urgency: low
 
         - No spec changes.
