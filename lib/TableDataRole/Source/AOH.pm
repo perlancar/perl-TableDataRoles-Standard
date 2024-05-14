@@ -17,6 +17,7 @@ sub new {
     my ($class, %args) = @_;
 
     my $aoh = delete $args{aoh} or die "Please specify 'aoh' argument";
+    my $column_names = delete $args{column_names};
     die "Unknown argument(s): ". join(", ", sort keys %args)
         if keys %args;
 
@@ -24,18 +25,24 @@ sub new {
         aoh => $aoh,
         pos => 0,
         # buffer => undef,
-        # column_names => undef,
+        column_names => $column_names,
         # column_idxs  => undef,
     };
 
-    $self->{column_names} = [];
-    $self->{column_idxs} = {};
-    if (@$aoh) {
-        my $row = $aoh->[0];
-        my $i = -1;
-        for (sort keys %$row) {
-            push @{ $self->{column_names} }, $_;
-            $self->{column_idxs}{$_} = ++$i;
+    if ($self->{column_names}) {
+        $self->{column_idxs} = { map { ($self->{column_names}[$_] => $_) }
+                                 0 .. $#{ $self->{column_names} }
+                             };
+    } else {
+        $self->{column_names} = [];
+        $self->{column_idxs} = {};
+        if (@$aoh) {
+            my $row = $aoh->[0];
+            my $i = -1;
+            for (sort keys %$row) {
+                push @{ $self->{column_names} }, $_;
+                $self->{column_idxs}{$_} = ++$i;
+            }
         }
     }
 
